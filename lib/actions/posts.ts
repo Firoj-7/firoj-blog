@@ -171,7 +171,7 @@ export async function updatePost(
   // Get existing post to check slug changes
   const { data: existingPost } = await supabase
     .from('posts')
-    .select('slug')
+    .select('slug, published_at')
     .eq('id', postId)
     .single()
 
