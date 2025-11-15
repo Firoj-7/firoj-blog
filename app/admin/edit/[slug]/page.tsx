@@ -24,6 +24,7 @@ export default async function EditPostPage({ params }: { params: { slug: string 
   const post = await getPostBySlug(params.slug, false)
 
   if (!post) {
+    console.error('Post not found for slug:', params.slug)
     notFound()
   }
 
