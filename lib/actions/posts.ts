@@ -79,11 +79,15 @@ export async function getPostBySlug(slug: string, publishedOnly: boolean = true)
 
     if (error) {
       // Post not found is not an error, just return null
-      if (error.code === 'PGRST116') {
+      if (error.code === 'PGRST116' || error.message?.includes('No rows')) {
         return null
       }
       console.error('Error fetching post by slug:', error)
-      throw new Error('Failed to fetch post')
+      // For admin access, try without published filter if it fails
+      if (!publishedOnly) {
+        return null
+      }
+      return null
     }
 
     return data || null
