@@ -66,6 +66,18 @@ export async function getPostBySlug(slug: string, publishedOnly: boolean = true)
   try {
     const supabase = await createClient()
     
+    // For admin access (publishedOnly: false), we need to ensure user is authenticated
+    if (!publishedOnly) {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      
+      if (!user) {
+        console.error('Unauthorized: User not authenticated for admin access')
+        return null
+      }
+    }
+    
     let query = supabase
       .from('posts')
       .select('*')
@@ -79,14 +91,11 @@ export async function getPostBySlug(slug: string, publishedOnly: boolean = true)
 
     if (error) {
       // Post not found is not an error, just return null
-      if (error.code === 'PGRST116' || error.message?.includes('No rows')) {
+      if (error.code === 'PGRST116' || error.message?.includes('No rows') || error.message?.includes('not found')) {
+        console.log(`Post not found for slug: ${slug}`)
         return null
       }
-      console.error('Error fetching post by slug:', error)
-      // For admin access, try without published filter if it fails
-      if (!publishedOnly) {
-        return null
-      }
+      console.error('Error fetching post by slug:', error, 'Slug:', slug)
       return null
     }
 

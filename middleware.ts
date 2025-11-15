@@ -31,6 +31,7 @@ export async function middleware(request: NextRequest) {
     }
   )
 
+  // Refresh session if expired
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -43,7 +44,10 @@ export async function middleware(request: NextRequest) {
   // Protect admin routes (except login page)
   if (request.nextUrl.pathname.startsWith('/admin') && request.nextUrl.pathname !== '/admin/login') {
     if (!user) {
-      return NextResponse.redirect(new URL('/admin/login', request.url))
+      const loginUrl = new URL('/admin/login', request.url)
+      // Add return URL so user can be redirected back after login
+      loginUrl.searchParams.set('redirect', request.nextUrl.pathname)
+      return NextResponse.redirect(loginUrl)
     }
   }
 
