@@ -11,7 +11,7 @@ const config: Config = {
       colors: {
         background: '#FFFFFF',
         foreground: '#1a1a1a',
-        link: '#0066CC',
+        link: '#2563eb', // Blue-600
       },
       typography: {
         DEFAULT: {

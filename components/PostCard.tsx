@@ -8,31 +8,33 @@ interface PostCardProps {
 
 export default function PostCard({ post }: PostCardProps) {
   return (
-    <article className="border-b border-gray-200 pb-8 last:border-b-0">
+    <article className="mb-12 last:mb-0">
       <Link 
         href={`/${post.slug}`}
         className="block group"
         aria-label={`Read ${post.title}`}
       >
-        <h2 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-link transition-colors">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-blue-600 hover:text-blue-700 transition-colors">
           {post.title}
         </h2>
       </Link>
-      {post.excerpt && (
-        <p className="text-gray-600 text-base md:text-lg mb-4 leading-relaxed">
-          {post.excerpt}
-        </p>
-      )}
-      <div className="flex items-center gap-4 text-sm text-gray-500">
-        <time 
-          dateTime={post.published_at || post.created_at}
-          className="font-medium"
-        >
-          {formatDate(post.published_at || post.created_at)}
-        </time>
-        <span aria-hidden="true">•</span>
-        <span>{post.reading_time} min read</span>
+      <div className="prose prose-lg max-w-none mb-4">
+        {post.excerpt ? (
+          <p className="text-gray-700 leading-relaxed mb-4">
+            {post.excerpt}
+          </p>
+        ) : (
+          <div 
+            className="text-gray-700 leading-relaxed"
+            dangerouslySetInnerHTML={{ 
+              __html: post.content.substring(0, 300).replace(/<[^>]*>/g, '') + '...' 
+            }} 
+          />
+        )}
       </div>
+      <p className="text-sm text-gray-600">
+        Posted on {formatDate(post.published_at || post.created_at)}
+      </p>
     </article>
   )
 }

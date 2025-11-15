@@ -4,10 +4,10 @@ import PostList from '@/components/PostList'
 
 export const metadata = {
   title: 'Home',
-  description: 'A minimalist personal blogging platform',
+  description: 'Firoj Ansari\'s Blog',
   openGraph: {
-    title: 'Personal Blog',
-    description: 'A minimalist personal blogging platform',
+    title: 'Firoj Ansari\'s Blog',
+    description: 'Firoj Ansari\'s Blog',
     type: 'website',
   },
 }
@@ -17,7 +17,12 @@ export default async function Home() {
 
   return (
     <Layout>
-      <PostList posts={posts} />
+      <div>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+          Firoj Ansari
+        </h1>
+        <PostList posts={posts} />
+      </div>
     </Layout>
   )
 }

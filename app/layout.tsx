@@ -3,18 +3,18 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Personal Blog',
-    template: '%s | Personal Blog',
+    default: 'Firoj Ansari',
+    template: '%s | Firoj Ansari',
   },
-  description: 'A minimalist personal blogging platform',
+  description: 'Firoj Ansari\'s Blog',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-  keywords: ['blog', 'personal blog', 'minimalist', 'writing'],
-  authors: [{ name: 'Personal Blog' }],
-  creator: 'Personal Blog',
+  keywords: ['blog', 'firoj ansari', 'personal blog', 'writing'],
+  authors: [{ name: 'Firoj Ansari' }],
+  creator: 'Firoj Ansari',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'Personal Blog',
+    siteName: 'Firoj Ansari',
   },
   robots: {
     index: true,

@@ -45,30 +45,27 @@ export default async function PostPage({ params }: { params: { slug: string } })
 
   return (
     <Layout>
-      <Link
-        href="/"
-        className="text-link hover:underline mb-8 inline-block text-sm"
-      >
-        ← Back to home
-      </Link>
+      <div>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+          Firoj Ansari
+        </h1>
+        
+        <article>
+          <header className="mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-blue-600">
+              {post.title}
+            </h2>
+            <p className="text-sm text-gray-600 mb-6">
+              Posted on {formatDate(post.published_at || post.created_at)}
+            </p>
+          </header>
 
-      <article className="content">
-        <header className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
-          <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
-            <time dateTime={post.published_at || post.created_at}>
-              {formatDate(post.published_at || post.created_at)}
-            </time>
-            <span>•</span>
-            <span>{post.reading_time} min read</span>
-          </div>
-        </header>
-
-        <div
-          className="prose prose-lg max-w-none"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-      </article>
+          <div
+            className="prose prose-lg max-w-none text-gray-700 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+        </article>
+      </div>
     </Layout>
   )
 }
