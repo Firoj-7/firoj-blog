@@ -17,14 +17,15 @@ async function checkAuth() {
   return user
 }
 
-export default async function EditPostPage({ params }: { params: { slug: string } }) {
+export default async function EditPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   await checkAuth()
   
   // Use getPostBySlug with publishedOnly: false to get all posts (including drafts)
-  const post = await getPostBySlug(params.slug, false)
+  const post = await getPostBySlug(slug, false)
 
   if (!post) {
-    console.error('Post not found for slug:', params.slug)
+    console.error('Post not found for slug:', slug)
     notFound()
   }
 
