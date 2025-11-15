@@ -62,7 +62,7 @@ export default function CommentForm({ postId, parentId, onSuccess }: CommentForm
       )}
       {success && (
         <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded text-sm">
-          Thank you! Your comment has been submitted and is pending approval.
+          Thank you! Your comment has been posted.
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

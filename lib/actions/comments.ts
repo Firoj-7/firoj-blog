@@ -57,7 +57,7 @@ export async function createComment(
         author_email: formData.author_email.trim(),
         content: formData.content.trim(),
         parent_id: formData.parent_id || null,
-        is_approved: false, // Comments require approval
+        is_approved: true, // Comments are automatically approved
       })
       .select()
       .single()
@@ -67,7 +67,7 @@ export async function createComment(
       return { success: false, error: error.message }
     }
 
-    // Revalidate the post page to show the comment count (even though comment is pending)
+    // Revalidate the post page to show the new comment immediately
     revalidatePath(`/[slug]`, 'page')
 
     return { success: true, comment: data }
