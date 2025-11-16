@@ -34,7 +34,7 @@ function Sidebar() {
       
       {/* Follow Button */}
       <a
-        href="https://x.com/yourusername"
+        href="https://x.com/Firoj_7S"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors mb-6 text-sm font-medium"
