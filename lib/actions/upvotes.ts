@@ -41,10 +41,17 @@ export async function checkUpvoteStatus(postId: string): Promise<boolean> {
   }
 }
 
-export async function toggleUpvote(postId: string): Promise<{ success: boolean; isUpvoted: boolean; error?: string }> {
+export async function toggleUpvote(postId: string): Promise<{ success: boolean; isUpvoted: boolean; upvotesCount?: number; error?: string }> {
   try {
     const supabase = await createClient()
     const userIdentifier = await getUserIdentifier()
+
+    // Get post slug for revalidation
+    const { data: post } = await supabase
+      .from('posts')
+      .select('slug')
+      .eq('id', postId)
+      .single()
 
     // Check if already upvoted
     const { data: existing } = await supabase
@@ -67,8 +74,20 @@ export async function toggleUpvote(postId: string): Promise<{ success: boolean; 
         return { success: false, isUpvoted: true, error: error.message }
       }
 
-      revalidatePath(`/[slug]`, 'page')
-      return { success: true, isUpvoted: false }
+      // Get updated count
+      const { data: updatedPost } = await supabase
+        .from('posts')
+        .select('upvotes_count')
+        .eq('id', postId)
+        .single()
+
+      // Revalidate paths
+      revalidatePath('/')
+      if (post?.slug) {
+        revalidatePath(`/${post.slug}`)
+      }
+
+      return { success: true, isUpvoted: false, upvotesCount: updatedPost?.upvotes_count || 0 }
     } else {
       // Add upvote
       const { error } = await supabase
@@ -83,8 +102,20 @@ export async function toggleUpvote(postId: string): Promise<{ success: boolean; 
         return { success: false, isUpvoted: false, error: error.message }
       }
 
-      revalidatePath(`/[slug]`, 'page')
-      return { success: true, isUpvoted: true }
+      // Get updated count
+      const { data: updatedPost } = await supabase
+        .from('posts')
+        .select('upvotes_count')
+        .eq('id', postId)
+        .single()
+
+      // Revalidate paths
+      revalidatePath('/')
+      if (post?.slug) {
+        revalidatePath(`/${post.slug}`)
+      }
+
+      return { success: true, isUpvoted: true, upvotesCount: updatedPost?.upvotes_count || 0 }
     }
   } catch (error: any) {
     console.error('Unexpected error in toggleUpvote:', error)

@@ -31,7 +31,12 @@ export default function UpvoteButton({ postId, upvotesCount: initialCount }: Upv
 
     if (result.success) {
       setIsUpvoted(result.isUpvoted)
-      setUpvotesCount((prev) => result.isUpvoted ? prev + 1 : prev - 1)
+      // Use the actual count from the server if available, otherwise update locally
+      if (result.upvotesCount !== undefined) {
+        setUpvotesCount(result.upvotesCount)
+      } else {
+        setUpvotesCount((prev) => result.isUpvoted ? prev + 1 : prev - 1)
+      }
     }
 
     setLoading(false)

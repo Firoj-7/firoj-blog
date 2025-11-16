@@ -88,8 +88,12 @@ CREATE TRIGGER update_post_comments_count
   FOR EACH ROW EXECUTE FUNCTION update_comments_count();
 
 -- Function to update upvotes_count
+-- Uses SECURITY DEFINER to bypass RLS when updating posts table
 CREATE OR REPLACE FUNCTION update_upvotes_count()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
   IF TG_OP = 'INSERT' THEN
     UPDATE posts SET upvotes_count = upvotes_count + 1 WHERE id = NEW.post_id;
