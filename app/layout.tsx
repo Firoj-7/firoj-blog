@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   keywords: ['blog', 'firoj ansari', 'personal blog', 'writing'],
   authors: [{ name: 'Firoj Ansari' }],
   creator: 'Firoj Ansari',
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
